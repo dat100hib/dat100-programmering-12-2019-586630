@@ -4,88 +4,94 @@ import no.hvl.dat100.jplab12.common.TODO;
 import no.hvl.dat100.jplab12.oppgave1.*;
 
 public class Blogg {
-	private Innlegg [] samling;
-	private int Antall;
-	// TODO: objektvariable 
-
+	
+	// TODO: 
+	private Innlegg [] innlegstabell;
+	private int nesteledige;
+	
 	public Blogg() {
-		samling = new Innlegg[20];
+		this.innlegstabell = new Innlegg[20];
+		this.nesteledige = 0;
 		
 	}
 
 	public Blogg(int lengde) {
 		
-		samling = new Innlegg[lengde];
+		innlegstabell = new Innlegg[lengde];
 	}
 
 	public int getAntall() {
-		
-		return Antall;
-	}
+		int antall = 0;
+		for (Innlegg innlegg : innlegstabell ) {
+			if(innlegg != null) {
+				antall++;
+			}
+		}
+		return antall;
+	}				
 	
 	
 	public Innlegg[] getSamling() {
-		return samling;
+		return innlegstabell ;
 
 	}
 	
 	public int finnInnlegg(Innlegg innlegg) {
-		
-		boolean funnet = false; int pos = 0;
-		while( pos < Antall && !funnet) {
-				if(samling[pos].erLik(innlegg) == innlegg) 
-				funnet = true;
-				
-			else 
-				pos++;
-				
+		int innleggpos = -1;
+		for (int i = 0; i < innlegstabell.length; i++) {
+			if(innlegg.erLik(innlegstabell[i])) {
+			 innleggpos = i;
+				break;				
 			}
-			if(funnet) 
-				return pos;
-			
-			else 
-				return -1;
-			
 		}
+		return innleggpos;	
+	}
 	
 	
 	public boolean finnes(Innlegg innlegg) {
-		boolean samme = false;
-		for (int i = 0; i < samling.length; i++) {
-			for(int j = i + 1; j <samling.length; j++) {
-				if(samling[i].equals(samling[j])) {
-					samme = true;
-				}
-				else {
-					samme = false;
+		boolean finnes = false;
+		for (Innlegg innLeggsTab : innlegstabell) {
+			if(innLeggsTab != null && innLeggsTab.getId() == innlegg.getId()) {
+				finnes = true;	
+				break;
 				}
 			}
-		}
-		return samme;
+		return finnes;
 		
 	}
 	
 	
 	public boolean ledigPlass() {
 		boolean ledig = false;
-		 for (int i = 0; i < samling.length; i++) {
-			 for (Object element : samling) {
-			      if (element == null) {
+			 for (Innlegg innlegg : innlegstabell) {
+			      if (innlegg == null) {
 			    	  ledig = true;
+			    	  break;
 			   }
-			 }
-			   ledig = false;
-			}
-		return ledig;
+			 }		
+			   return ledig;
 		
 	}
 	public boolean leggTil(Innlegg innlegg) {
 
-		throw new UnsupportedOperationException(TODO.method());
+		boolean lagtTil = false;
+		if(!finnes(innlegg) && ledigPlass()) {
+			innlegstabell[nesteledige] = innlegg;
+			lagtTil = true;
+			nesteledige++;
+		
+		}
+		return lagtTil;
 	}
-	
+
 	public String toString() {
-		throw new UnsupportedOperationException(TODO.method());
+		String str = getAntall() + "\n";
+		for (Innlegg innlegg : innlegstabell) {
+			if (innlegg != null) {
+				str = str + innlegg.toString();
+			}
+		}
+		return str;
 	}
 
 	// valgfrie oppgaver nedenfor

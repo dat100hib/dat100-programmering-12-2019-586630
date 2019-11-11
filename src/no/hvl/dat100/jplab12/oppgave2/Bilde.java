@@ -75,7 +75,7 @@ public class Bilde extends Tekst {
 	@Override
 	public String toString() {
 		
-		String str = "BILDE\n1\n"+bruker+"\n"+dato+"\n"+likes+"\net bilde\n"+url+"\n";
+		String str = "BILDE\n2\n"+bruker+"\n"+dato+"\n"+likes+"\net bilde\n"+url+"\n";
 		return str;
 
 	}
